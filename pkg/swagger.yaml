@@ -1,0 +1,303 @@
+consumes:
+  - application/json
+definitions:
+  structs.ExampleOrderRequest:
+    properties:
+      address:
+        default: Sofia Mladost 2
+        type: string
+      name:
+        default: Ivan Ivanov
+        type: string
+      phone:
+        default: "0888888888"
+        type: string
+      products:
+        items:
+          properties:
+            id:
+              default: bc264186-9c2e-4533-6ba5-705c160303c1
+              type: string
+            quantity:
+              default: 2
+              type: integer
+          type: object
+        type: array
+    type: object
+  structs.ExampleProductRequest:
+    properties:
+      category:
+        default: Men Shirts
+        type: string
+      name:
+        default: Men Red Shirt
+        type: string
+      price:
+        default: 19.99
+        type: number
+      quantity:
+        default: 1000
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: alexandar.naydenov99@gmail.com
+    name: Alexandar Naydenov
+  description: This is a sample rest backend for an online shop.
+  title: Golang Rest Shop Backend
+  version: "1.0"
+paths:
+  /delete/order/{orderId}:
+    delete:
+      parameters:
+        - description: ID of the order
+          in: path
+          name: orderId
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "404":
+          description: Request has wrong format
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Delete an order
+      tags:
+        - Orders
+  /delete/product/{productId}:
+    delete:
+      parameters:
+        - description: ID of the product
+          in: path
+          name: productId
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "404":
+          description: Request has wrong format
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Delete a product
+      tags:
+        - Products
+  /order:
+    get:
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get all orders from the shop
+      tags:
+        - Orders
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: New order details
+          in: body
+          name: order
+          required: true
+          schema:
+            $ref: '#/definitions/structs.ExampleOrderRequest'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "404":
+          description: Request has wrong format or not enought quantity of a product
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Submit a new order
+      tags:
+        - Orders
+  /order/{orderId}:
+    get:
+      parameters:
+        - description: ID of the order
+          in: path
+          name: orderId
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "404":
+          description: Order with such Id not found
+          schema:
+            type: string
+      summary: Get a order by id from the shop
+      tags:
+        - Orders
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - description: ID of the order
+          in: path
+          name: orderId
+          required: true
+          type: string
+        - description: Updated order details
+          in: body
+          name: order
+          required: true
+          schema:
+            $ref: '#/definitions/structs.ExampleOrderRequest'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "404":
+          description: Request has wrong format
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Update an order
+      tags:
+        - Orders
+  /product:
+    get:
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Get all products from the shop
+      tags:
+        - Products
+    post:
+      consumes:
+        - application/json
+      parameters:
+        - description: New product details
+          in: body
+          name: order
+          required: true
+          schema:
+            $ref: '#/definitions/structs.ExampleProductRequest'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "404":
+          description: Request has wrong format
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Add a new product
+      tags:
+        - Products
+  /product/{productId}:
+    get:
+      parameters:
+        - description: ID of the product
+          in: path
+          name: productId
+          required: true
+          type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "404":
+          description: Product with such Id not found
+          schema:
+            type: string
+      summary: Get a product by id from the shop
+      tags:
+        - Products
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - description: ID of the product
+          in: path
+          name: productId
+          required: true
+          type: string
+        - description: Updated product details
+          in: body
+          name: order
+          required: true
+          schema:
+            $ref: '#/definitions/structs.ExampleProductRequest'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Successful request
+          schema:
+            type: string
+        "404":
+          description: Request has wrong format
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Update a product
+      tags:
+        - Products
+produces:
+  - application/json
+swagger: "2.0"
